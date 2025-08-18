@@ -11,8 +11,7 @@ services:
     depends_on:
       - backend
   backend:
-    container_name: backend
-    image: python:3.13-alpine
+    build: ./backend
     restart: unless-stopped
     ports:
       - "5000:5000"
@@ -21,7 +20,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./backend:/app # Monta o código do backend para desenvolvimento.
+      - ./backend:/app 
     depends_on:
       - db
   db:

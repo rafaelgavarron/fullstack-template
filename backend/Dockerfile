@@ -1,0 +1,8 @@
+FROM python:3.13-alpine
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+
+# Ajuste esta linha para o seu framework e aplicação.
+# CMD ["flask", "run", "--host=0.0.0.0"]

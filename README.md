@@ -1,14 +1,33 @@
-# my-react-app
+# Template Full-Stack: React, Python, PostgreSQL e Docker
 
-Este é um projeto full-stack que inclui um frontend em React, um backend em Python e um banco de dados PostgreSQL, tudo orquestrado com Docker Compose.
+Este é um projeto modelo (boilerplate) projetado para acelerar o desenvolvimento de aplicações web full-stack. Ele fornece uma estrutura pré-configurada com um frontend em **React**, um backend em **Python**, um banco de dados **PostgreSQL**, todos orquestrados com **Docker e Docker Compose**.
 
-## Visão Geral
+## ✨ Recursos
 
-O projeto está estruturado para separar as preocupações do frontend e do backend em seus próprios diretórios e contêineres Docker.
+-   **🚀 Início Rápido:** Clone o repositório e inicie todo o ambiente de desenvolvimento com um único comando.
+-   **🐳 Containerizado:** Frontend, backend e banco de dados rodam em contêineres Docker isolados.
+-   **💻 Hot-Reloading:** As alterações no código do frontend são refletidas instantaneamente sem a necessidade de reiniciar os contêineres.
+-   **🔗 Pré-configurado:** Conexão entre frontend, backend e banco de dados já estabelecida.
+-   **🌱 Escalável:** Estrutura base sólida para construir projetos complexos.
 
--   `frontend/`: Contém a aplicação React criada com Create React App.
--   `backend/`: Contém a aplicação Python.
--   `docker-compose.yml`: Define os serviços, redes e volumes para a aplicação.
+## 📂 Estrutura do Projeto
+
+O projeto é organizado de forma monorepo, separando claramente as responsabilidades:
+
+```
+.
+├── backend/
+│   ├── Dockerfile
+│   └── requirements.txt
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── package.json
+│   └── Dockerfile
+├── .gitignore
+├── docker-compose.yml
+└── README.md
+```
 
 ## Pré-requisitos
 
@@ -16,75 +35,70 @@ Antes de começar, certifique-se de ter o seguinte instalado em sua máquina:
 -   Docker
 -   Docker Compose
 
-## Como Iniciar
+## 🚀 Como Usar este Template
 
-1.  **Clone o repositório:**
+1.  **Clone o repositório para sua máquina local:**
     ```bash
-    git clone <URL_DO_SEU_REPOSITORIO>
-    cd my-react-app
+    git clone <URL_DESTE_REPOSITORIO> nome-do-seu-projeto
+    cd nome-do-seu-projeto
     ```
 
-2.  **Inicie os contêineres:**
-    Execute o seguinte comando na raiz do projeto para construir e iniciar os contêineres em modo detached (`-d`):
+2.  **Construa e inicie os contêineres:**
+    Execute o comando a seguir na raiz do projeto. O Docker Compose irá construir as imagens e iniciar os serviços em background (`-d`).
     ```bash
     docker-compose up --build -d
     ```
 
-3.  **Acesse os serviços:**
+3.  **Pronto! Acesse os serviços:**
     -   **Frontend (React App):** http://localhost:3000
     -   **Backend (Python API):** http://localhost:5000
     -   **Database (PostgreSQL):** Acessível na porta `5432` da sua máquina local.
 
-4.  **Para parar os contêineres:**
+4.  **Para parar todos os serviços:**
     ```bash
     docker-compose down
     ```
 
-## Serviços
+## 🛠️ Serviços Docker
 
-### Frontend
+### Frontend (`frontend`)
 
--   **Tecnologia:** React (Create React App)
--   **Contêiner:** `frontend`
+-   **Tecnologia:** React (Node.js)
 -   **Porta:** `3000:3000`
--   **Notas:** O código-fonte é montado no volume `./frontend:/app`, permitindo o hot-reloading durante o desenvolvimento.
+-   **Notas:** O código-fonte em `./frontend` é montado diretamente no contêiner, permitindo hot-reloading.
 
-### Backend
+### Backend (`backend`)
 
 -   **Tecnologia:** Python 3.13
--   **Contêiner:** `backend`
 -   **Porta:** `5000:5000`
--   **Notas:** O backend está configurado para se conectar ao banco de dados no serviço `db`. É altamente recomendado criar um arquivo `requirements.txt` para gerenciar as dependências Python.
+-   **Notas:** O código-fonte em `./backend` também é montado para desenvolvimento ágil. A variável de ambiente `DATABASE_URL` já está configurada para se conectar ao serviço `db`.
 
-### Banco de Dados
+### Banco de Dados (`db`)
 
 -   **Tecnologia:** PostgreSQL 17.6
--   **Contêiner:** `postgres_db`
 -   **Porta:** `5432:5432`
--   **Credenciais:**
+-   **Credenciais Padrão:**
     -   **Usuário:** `postgres`
     -   **Senha:** `postgres`
     -   **Banco de Dados:** `my_db`
--   **Persistência:** Os dados do banco de dados são persistidos no volume nomeado `db_data`.
+-   **Persistência:** Os dados são salvos no volume `db_data` para sobreviver a reinicializações dos contêineres.
 
-## Desenvolvimento
+## 🔧 Desenvolvimento e Customização
 
-Para desenvolvimento local fora do Docker, você pode executar os serviços individualmente.
+### Backend (Python)
 
-### Frontend
+1.  **Adicione dependências** ao arquivo `backend/requirements.txt`.
+2.  **Escreva seu código** Python no diretório `backend/`.
+3.  **Defina o comando de inicialização** no `backend/Dockerfile` para rodar sua API (ex: com Flask ou Uvicorn).
+4.  Reinicie o serviço para aplicar as mudanças: `docker-compose up -d --build backend`.
 
-Dentro do diretório `frontend`:
+### Frontend (React)
+
+Você pode adicionar novas dependências normalmente. Execute os comandos **no seu terminal local**, dentro do diretório `frontend/`:
+
 ```bash
-npm install
-npm start
+# Estando dentro do diretório my-react-app/frontend
+npm install axios
 ```
 
-### Backend
-
-Dentro do diretório `backend`, é recomendado criar um ambiente virtual:
-```bash
-python -m venv venv
-source venv/bin/activate  # No Windows: venv\Scripts\activate
-pip install -r requirements.txt # Crie um requirements.txt com suas dependências
-# Inicie seu servidor Python (ex: flask run, uvicorn main:app --reload)
-```
+O `package.json` será atualizado. Na próxima vez que você executar `docker-compose up --build`, as novas dependências serão instaladas na imagem Docker.
