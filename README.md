@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# my-react-app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é um projeto full-stack que inclui um frontend em React, um backend em Python e um banco de dados PostgreSQL, tudo orquestrado com Docker Compose.
 
-## Available Scripts
+## Visão Geral
 
-In the project directory, you can run:
+O projeto está estruturado para separar as preocupações do frontend e do backend em seus próprios diretórios e contêineres Docker.
 
-### `npm start`
+-   `frontend/`: Contém a aplicação React criada com Create React App.
+-   `backend/`: Contém a aplicação Python.
+-   `docker-compose.yml`: Define os serviços, redes e volumes para a aplicação.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Pré-requisitos
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Antes de começar, certifique-se de ter o seguinte instalado em sua máquina:
+-   Docker
+-   Docker Compose
 
-### `npm test`
+## Como Iniciar
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1.  **Clone o repositório:**
+    ```bash
+    git clone <URL_DO_SEU_REPOSITORIO>
+    cd my-react-app
+    ```
 
-### `npm run build`
+2.  **Inicie os contêineres:**
+    Execute o seguinte comando na raiz do projeto para construir e iniciar os contêineres em modo detached (`-d`):
+    ```bash
+    docker-compose up --build -d
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3.  **Acesse os serviços:**
+    -   **Frontend (React App):** http://localhost:3000
+    -   **Backend (Python API):** http://localhost:5000
+    -   **Database (PostgreSQL):** Acessível na porta `5432` da sua máquina local.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4.  **Para parar os contêineres:**
+    ```bash
+    docker-compose down
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Serviços
 
-### `npm run eject`
+### Frontend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+-   **Tecnologia:** React (Create React App)
+-   **Contêiner:** `frontend`
+-   **Porta:** `3000:3000`
+-   **Notas:** O código-fonte é montado no volume `./frontend:/app`, permitindo o hot-reloading durante o desenvolvimento.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Backend
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+-   **Tecnologia:** Python 3.13
+-   **Contêiner:** `backend`
+-   **Porta:** `5000:5000`
+-   **Notas:** O backend está configurado para se conectar ao banco de dados no serviço `db`. É altamente recomendado criar um arquivo `requirements.txt` para gerenciar as dependências Python.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Banco de Dados
 
-## Learn More
+-   **Tecnologia:** PostgreSQL 17.6
+-   **Contêiner:** `postgres_db`
+-   **Porta:** `5432:5432`
+-   **Credenciais:**
+    -   **Usuário:** `postgres`
+    -   **Senha:** `postgres`
+    -   **Banco de Dados:** `my_db`
+-   **Persistência:** Os dados do banco de dados são persistidos no volume nomeado `db_data`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Desenvolvimento
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Para desenvolvimento local fora do Docker, você pode executar os serviços individualmente.
 
-### Code Splitting
+### Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Dentro do diretório `frontend`:
+```bash
+npm install
+npm start
+```
 
-### Analyzing the Bundle Size
+### Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Dentro do diretório `backend`, é recomendado criar um ambiente virtual:
+```bash
+python -m venv venv
+source venv/bin/activate  # No Windows: venv\Scripts\activate
+pip install -r requirements.txt # Crie um requirements.txt com suas dependências
+# Inicie seu servidor Python (ex: flask run, uvicorn main:app --reload)
+```
