@@ -46,7 +46,7 @@ Antes de começar, certifique-se de ter o seguinte instalado em sua máquina:
 2.  **Construa e inicie os contêineres:**
     Execute o comando a seguir na raiz do projeto. O Docker Compose irá construir as imagens e iniciar os serviços em background (`-d`).
     ```bash
-    docker-compose up --build -d
+    docker compose up --build -d
     ```
 
 3.  **Pronto! Acesse os serviços:**
@@ -56,7 +56,7 @@ Antes de começar, certifique-se de ter o seguinte instalado em sua máquina:
 
 4.  **Para parar todos os serviços:**
     ```bash
-    docker-compose down
+    docker compose down
     ```
 
 ## 🛠️ Serviços Docker
